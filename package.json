@@ -1,0 +1,24 @@
+{
+  "name": "@hexlet/code",
+  "version": "1.0.0",
+  "description": "This is the final project for the front-end developer course.",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "start-server -s ./frontend_slack/build",
+    "build": "npm run build --prefix frontend"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Loresina/frontend-bootcamp-project-12.git"
+  },
+  "author": "Ekaterina Volynshchikova",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Loresina/frontend-bootcamp-project-12/issues"
+  },
+  "homepage": "https://github.com/Loresina/frontend-bootcamp-project-12#readme",
+  "dependencies": {
+    "@hexlet/chat-server": "^1.1.8"
+  }
+}
