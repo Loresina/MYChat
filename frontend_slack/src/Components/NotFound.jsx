@@ -1,19 +1,24 @@
 import React from 'react';
-import bubbles from './95.jpg';
+import {
+  Container, Image, Row, Col,
+} from 'react-bootstrap';
+
+import notfoundImg from '../Img/notfoundImg.svg';
 
 const NotFound = () => (
-  <div className="container-fluid">
-    <div className="row justify-content-center pt-5">
-      <div className="col-sm-4 text-center">
-        <img src={bubbles} alt="Страница не найдена" className="img-fluid" />
+  <Container fluid>
+    <Row className="justify-content-center pt-5">
+      <Col sm={4} className="text-center">
+        <Image src={notfoundImg} alt="Страница не найдена" className="p-3" fluid style={{ width: '400px', height: '300px' }} />
         <h1 className="h4 text-muted">Страница не найдена</h1>
         <p className="text-muted">
           Но вы можете перейти
           <a href="/">на главную страницу</a>
         </p>
-      </div>
-    </div>
-  </div>
+      </Col>
+    </Row>
+  </Container>
+
 );
 
 export default NotFound;

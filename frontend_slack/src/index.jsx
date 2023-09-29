@@ -5,6 +5,7 @@ import App from './Components/App';
 import reportWebVitals from './reportWebVitals';
 import store from './Slices/index';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import 'react-toastify/dist/ReactToastify.css';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

@@ -1,17 +1,24 @@
 import axios from 'axios';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import {
-  Container, Row, Col, Form, InputGroup, Button, FormControl,
+  Container, Row, Col, Button,
 } from 'react-bootstrap';
 // import { useFormik } from 'formik';
+import io from 'socket.io-client';
 import { actions as channelsActions } from '../Slices/channelsSlice';
-import { setMessages } from '../Slices/messagesSlice';
+import { actions as messagesActions } from '../Slices/messagesSlice';
 import Channels from './Channels';
 import Messages from './Messages';
+import SendingMessage from './SendMessage';
+import getModal from '../Modals/index';
 
 const MyChat = () => {
+  const [currentChannel, setCurrentChannel] = useState({});
+  const [socket, setSocket] = useState(null);
+  const [typeModal, setModal] = useState(null);
   const dispatch = useDispatch();
+  let defoltChannel = {};
 
   const getAuthHeader = () => {
     const userToken = JSON.parse(localStorage.getItem('userToken'));
@@ -22,31 +29,52 @@ const MyChat = () => {
     return {};
   };
 
-  // const [message, setMessage] = useState('');
-
   const config = {
     headers: getAuthHeader(),
   };
 
   useEffect(() => {
+    const socketIo = io('http://localhost:3000');
+    setSocket(socketIo);
+
+    socketIo.on('newMessage', (payload) => {
+      dispatch(messagesActions.addMessage(payload));
+    });
+
+    socketIo.on('newChannel', (payload) => {
+      console.log('Новый канал', payload);
+      dispatch(channelsActions.addChannel(payload));
+      setCurrentChannel(payload);
+    });
+
     const fetchData = async () => {
       try {
         const response = await axios.get('/api/v1/data', config);
-        console.log('Это то, что пришло с сервера', response.data.channels, response.data.messages, response.data.currentChannelId);
-        console.log('Я отработал, dispatch');
         const existChannels = response.data.channels;
         const newMessages = response.data.messages;
-        console.log('Это existChannels', existChannels);
-
-        dispatch(setMessages({ newMessages }));
+        [defoltChannel] = existChannels;
+        dispatch(messagesActions.addMessages(newMessages));
         dispatch(channelsActions.addChannels(existChannels));
+        setCurrentChannel(defoltChannel);
       } catch (error) {
         console.error(error);
       }
     };
-
     fetchData();
+
+    // Функция очистки: отключаем сокет и удаляем обработчики
+    return () => {
+      socketIo.off('newMessage');
+      socketIo.off('newChannel');
+      socketIo.disconnect();
+    };
   }, []);
+
+  const changeModal = (type) => () => {
+    setModal(type);
+  };
+
+  const ModalComponent = getModal(typeModal);
 
   return (
     <Container className="h-100 my-4 overflow-hidden rounded shadow">
@@ -54,60 +82,46 @@ const MyChat = () => {
         <Col className="col-4 col-md-2 border-end px-0 bg-light flex-column h-100 d-flex">
           <div className="d-flex mt-1 justify-content-between mb-2 ps-4 pe-2 p-4">
             <b>Каналы</b>
-            <button type="button" className="p-0 text-primary btn btn-group-vertical"> +++ </button>
+            <Button className="p-0 text-primary btn btn-group-vertical" onClick={changeModal('adding')}> +++ </Button>
           </div>
-          <ul id="channels-box" className="nav flex-column nav-pills nav-fill px-2 mb-3 overflow-auto h-100 d-block">
-            <Channels />
-          </ul>
+
+          <Channels setCurrentChannel={setCurrentChannel} currentChannel={currentChannel} />
+
         </Col>
 
         <Col className="p-0 h-100">
           <div className="d-flex flex-column h-100">
             <div className="bg-light mb-4 p-3 shadow-sm small">
-              <p className="m-0"><b># имя канала - переменная</b></p>
+              <p className="m-0">
+                <b>
+                  #
+                  {' '}
+                  {currentChannel.name}
+                </b>
+              </p>
               <span className="text-muted">Информация о том, сколько сообщений - переменная</span>
             </div>
             <div id="messages-box" className="chat-messages overflow-auto px-5 ">
-              <Messages />
+              <Messages currentChannel={currentChannel} />
             </div>
             <div className="mt-auto px-5 py-3">
-              <Form noValidate className="py-1 border rounded-2">
-                <InputGroup hasValidation>
-                  <FormControl
-                    name="body"
-                    aria-label="Новое сообщение"
-                    placeholder="Введите сообщение..."
-                    className="border-0 p-0 ps-2"
-                    // value=""
-                  />
-                  <Button type="submit" disabled variant="group-vertical">---</Button>
-                </InputGroup>
-              </Form>
+              <SendingMessage socket={socket} currentChannel={currentChannel} />
             </div>
           </div>
         </Col>
       </Row>
 
+      {typeModal && (
+      <ModalComponent
+        currentChannel={currentChannel}
+        socket={socket}
+        setModal={setModal}
+      />
+      ) }
+
     </Container>
 
   );
 };
-
-// { /* // (
-// //   <div className="container-fluid">
-// //     <h1 className="h4 text-muted">Здесь Чат</h1>
-// //   </div>
-// // ); */ }
-
-// { /* <div className="container h-100 my-4 overflow-hidden rounded shadow">
-//       <Row className="h-100 dg-white flex-md-row">
-//         <Col md={4} className="border-end px-0 bg-light flex-column h-100 d-flex">
-//           <h3>Первая колонка</h3>
-//         </Col>
-//         <Col className="p-0 h-100">
-//           <div className="feedback">{values}</div>
-//         </Col>
-//       </Row>
-//     </div> */ }
 
 export default MyChat;

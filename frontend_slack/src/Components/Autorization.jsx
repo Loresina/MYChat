@@ -9,14 +9,12 @@ import {
 import * as yup from 'yup';
 import axios from 'axios';
 import AuthContext from '../Context/Context';
-import logo from './93.jpg';
+import mainImg from '../Img/mainImg.svg';
 
 const Autorization = () => {
   const [showError, setShowError] = useState(false);
   const { logIn } = useContext(AuthContext);
   const navigate = useNavigate();
-
-  console.log('Авторизация');
 
   const formik = useFormik({
     initialValues: {
@@ -34,8 +32,9 @@ const Autorization = () => {
         .then((resp) => {
           logIn();
           localStorage.setItem('userToken', JSON.stringify({ token: resp.data.token }));
+          localStorage.setItem('userName', JSON.stringify({ user: resp.data.username }));
+          console.log('После авторизации', localStorage);
           navigate('/');
-          console.log(localStorage);
         })
         .catch((error) => {
           if (error.name === 'AxiosError') {
@@ -56,7 +55,7 @@ const Autorization = () => {
               <div className="card-body row p-5">
                 <Row className="d-flex align-items-center justify-content-center">
                   <Col md={6}>
-                    <img src={logo} alt="Описание изображения" className="img-fluid p-2" />
+                    <img src={mainImg} alt="Описание изображения" className="img-fluid p-2" />
                   </Col>
                   <Col md={6}>
                     <Form onSubmit={formik.handleSubmit} className="p-3">

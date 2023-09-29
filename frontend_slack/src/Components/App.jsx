@@ -2,6 +2,7 @@ import {
   BrowserRouter, Routes, Route, Navigate,
   useLocation,
 } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
 import React, { useState, useContext } from 'react';
 import { Button, Navbar, Container } from 'react-bootstrap';
 import Autorization from './Autorization';
@@ -71,6 +72,7 @@ const App = () => (
         />
         <Route path="*" element={<NotFound />} />
       </Routes>
+      <ToastContainer />
     </BrowserRouter>
   </AuthProvider>
 
