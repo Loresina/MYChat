@@ -1,12 +1,14 @@
 import React from 'react';
 import {
-  Nav, ButtonGroup, InputGroup, Button, FormControl, Dropdown,
+  ButtonGroup, Dropdown,
 } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import cn from 'classnames';
 import { selectors } from '../Slices/channelsSlice';
 
-const Channels = ({ currentChannel, setCurrentChannel }) => {
+const Channels = ({
+  currentChannel, setCurrentChannel, setModal, t,
+}) => {
   const channels = useSelector(selectors.selectAll);
 
     <ButtonGroup className="d-flex">
@@ -37,6 +39,11 @@ const Channels = ({ currentChannel, setCurrentChannel }) => {
       </li>
     );
 
+    const changeChannel = (channel, typeModal) => {
+      setCurrentChannel(channel);
+      setModal(typeModal);
+    };
+
     const renderNew = (channel) => (
       <li key={channel.id} className="nav-item w-100">
         <ButtonGroup className="d-flex">
@@ -51,8 +58,8 @@ const Channels = ({ currentChannel, setCurrentChannel }) => {
           <Dropdown as={ButtonGroup}>
             <Dropdown.Toggle split variant="secondary" id="dropdown-split-basic" />
             <Dropdown.Menu>
-              <Dropdown.Item href="#">Удалить</Dropdown.Item>
-              <Dropdown.Item href="#">Переименовать</Dropdown.Item>
+              <Dropdown.Item onClick={() => changeChannel(channel, 'removing')}>{t('deleteButton')}</Dropdown.Item>
+              <Dropdown.Item onClick={() => changeChannel(channel, 'renaming')}>{t('renameButton')}</Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>
         </ButtonGroup>

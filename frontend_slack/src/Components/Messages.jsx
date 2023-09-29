@@ -1,12 +1,16 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { selectors } from '../Slices/messagesSlice';
 
-const Messages = ({ currentChannel }) => {
+const Messages = ({ currentChannel, setMessagesCount }) => {
   const messages = useSelector(selectors.selectAll);
   console.log('Я в канале Messages!!!!!!', messages);
 
   const messagesToShow = messages.filter((one) => one.channelId === currentChannel.id);
+
+  useEffect(() => {
+    setMessagesCount(messagesToShow.length);
+  }, [messagesToShow, setMessagesCount]);
 
   return (
     messagesToShow.map((message) => (

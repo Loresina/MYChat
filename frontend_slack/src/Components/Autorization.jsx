@@ -1,7 +1,5 @@
 import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-// import { Formik, Field, Form } from 'formik';
-// useEffect, useRef,
 import { useFormik } from 'formik';
 import {
   Button, Form, Row, Col,
@@ -11,7 +9,7 @@ import axios from 'axios';
 import AuthContext from '../Context/Context';
 import mainImg from '../Img/mainImg.svg';
 
-const Autorization = () => {
+const Autorization = ({ t }) => {
   const [showError, setShowError] = useState(false);
   const { logIn } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -23,9 +21,9 @@ const Autorization = () => {
     },
     validationSchema: yup.object({
       username: yup.string()
-        .required('Это поле необходимо заполнить.'),
+        .required(t('required')),
       password: yup.string()
-        .required('Это поле необходимо заполнить.'),
+        .required(t('required')),
     }),
     onSubmit: (values) => {
       axios.post('/api/v1/login', values)
@@ -39,7 +37,7 @@ const Autorization = () => {
         .catch((error) => {
           if (error.name === 'AxiosError') {
             setShowError(true);
-            console.error('the username or password is incorrect');
+            // console.error('the username or password is incorrect');
           }
           return 'ДРУГАЯ ОШИБКА';
         });
@@ -60,7 +58,7 @@ const Autorization = () => {
                   <Col md={6}>
                     <Form onSubmit={formik.handleSubmit} className="p-3">
                       <fieldset>
-                        <h1 className="text-center mb-4">Войти</h1>
+                        <h1 className="text-center mb-4">{t('welcome')}</h1>
                         <Form.Group className="form-floating mb-3">
                           <Form.Control
                             className="mb-2"
@@ -73,8 +71,8 @@ const Autorization = () => {
                             isInvalid={showError}
                           />
                           <Form.Label htmlFor="username">Ваш ник</Form.Label>
-                          {formik.submitCount > 0 && formik.errors.password && (
-                          <p className="text-danger">{formik.errors.password}</p>
+                          {formik.submitCount > 0 && formik.errors.username && (
+                          <p className="text-danger">{formik.errors.username}</p>
                           )}
                         </Form.Group>
                         <Form.Group className="form-floating mb-3">
@@ -93,9 +91,9 @@ const Autorization = () => {
                           {formik.submitCount > 0 && formik.errors.password && (
                           <p className="text-danger">{formik.errors.password}</p>
                           )}
-                          <Form.Control.Feedback className="invalid-tooltip" type="invalid">Неверное имя пользователя или пароль.</Form.Control.Feedback>
+                          <Form.Control.Feedback className="invalid-tooltip" type="invalid">{t('loginMistake')}</Form.Control.Feedback>
                         </Form.Group>
-                        <Button type="submit" className="btn btn-primary w-100">Войти</Button>
+                        <Button type="submit" className="btn btn-primary w-100">{t('welcome')}</Button>
                       </fieldset>
                     </Form>
                   </Col>

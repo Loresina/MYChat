@@ -5,10 +5,12 @@ import {
 import { ToastContainer } from 'react-toastify';
 import React, { useState, useContext } from 'react';
 import { Button, Navbar, Container } from 'react-bootstrap';
+import { useTranslation } from 'react-i18next';
 import Autorization from './Autorization';
 import NotFound from './NotFound';
 import MyChat from './MyChat';
 import AuthContext from '../Context/Context';
+import Registration from './Registration';
 
 const AuthProvider = ({ children }) => {
   const [loggedIn, setLoggedIn] = useState(!!localStorage.getItem('userToken'));
@@ -39,70 +41,48 @@ const LogInRoute = ({ children }) => {
   );
 };
 
-const LogOut = () => {
+const LogOut = ({ t }) => {
   const { loggedIn, logOut } = useContext(AuthContext);
 
   return (
-    loggedIn ? <Button onClick={logOut}>Log out</Button> : null
+    loggedIn ? <Button onClick={logOut}>{t('logOut')}</Button> : null
   );
 };
 
-const App = () => (
-  <AuthProvider>
+const App = () => {
+  const { t } = useTranslation();
 
-    <BrowserRouter>
-      <Navbar className="shadow-sm navbar-expand-lg navbar-light bg-white">
-        <Container>
-          <Navbar.Brand>
-            <a className="navbar-brand" href="/">MY Hexlet Chat</a>
-          </Navbar.Brand>
-          <LogOut>Log out</LogOut>
-        </Container>
-      </Navbar>
+  return (
+    <AuthProvider>
 
-      <Routes>
-        <Route path="login" element={<Autorization />} />
-        <Route
-          path="/"
-          element={(
-            <LogInRoute>
-              <MyChat />
-            </LogInRoute>
+      <BrowserRouter>
+        <Navbar className="shadow-sm navbar-expand-lg navbar-light bg-white">
+          <Container>
+            <Navbar.Brand>
+              <a className="navbar-brand" href="/">MY Hexlet Chat</a>
+            </Navbar.Brand>
+            <LogOut t={t} />
+          </Container>
+        </Navbar>
+
+        <Routes>
+          <Route path="login" element={<Autorization t={t} />} />
+          <Route path="/signup" element={<Registration t={t} />} />
+          <Route
+            path="/"
+            element={(
+              <LogInRoute>
+                <MyChat t={t} />
+              </LogInRoute>
           )}
-        />
-        <Route path="*" element={<NotFound />} />
-      </Routes>
-      <ToastContainer />
-    </BrowserRouter>
-  </AuthProvider>
+          />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+        <ToastContainer />
+      </BrowserRouter>
+    </AuthProvider>
 
-);
+  );
+};
 
 export default App;
-
-// import logo from './logo.svg';
-// import './App.css';
-
-// function App() {
-//   return (
-//     <div className="App">
-//       <header className="App-header">
-//         <img src={logo} className="App-logo" alt="logo" />
-//         <p>
-//           LALA <code>src/App.js</code> and save to reload.
-//         </p>
-//         <h1>Hello, how are you?</h1>
-//         <a
-//           className="App-link"
-//           href="https://reactjs.org"
-//           target="_blank"
-//           rel="noopener noreferrer"
-//         >
-//           Learn React
-//         </a>
-//       </header>
-//     </div>
-//   );
-// }
-
-// export default App;

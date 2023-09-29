@@ -1,14 +1,17 @@
 import React, { useEffect, useRef } from 'react';
-// import { useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useFormik } from 'formik';
 import { toast } from 'react-toastify';
 import {
   Modal, Button, Form, FormControl, FormGroup,
 } from 'react-bootstrap';
+import * as yup from 'yup';
+import { selectors } from '../Slices/channelsSlice';
 
-const AddChannel = ({ currentChannel, socket, setModal }) => {
+const AddChannel = ({ socket, setModal, t }) => {
   const inputFocus = useRef(null);
-  const { user } = JSON.parse(localStorage.getItem('userName'));
+  const existingChannels = useSelector(selectors.selectAll);
+  const existingNames = existingChannels.map((channel) => channel.name);
 
   useEffect(() => {
     inputFocus.current.focus();
@@ -18,10 +21,16 @@ const AddChannel = ({ currentChannel, socket, setModal }) => {
     initialValues: {
       name: '',
     },
+    validationSchema: yup.object({
+      name: yup.string()
+        .required(t('required'))
+        .min(3, t('nameMinMax'))
+        .max(20, t('nameMinMax'))
+        .notOneOf(existingNames, t('uniqueName')),
+    }),
     onSubmit: (values) => {
-      console.log('values.message', currentChannel, user);
       socket.emit('newChannel', { name: values.name });
-      toast('Канал создан!');
+      toast(t('addChannelSuccess'));
       setModal(null);
     },
   });
@@ -29,7 +38,7 @@ const AddChannel = ({ currentChannel, socket, setModal }) => {
   return (
     <Modal show centered className="fade modal show" onHide={() => setModal(null)} style={{ display: 'block' }}>
       <Modal.Header closeButton>
-        <Modal.Title>Добавить канал</Modal.Title>
+        <Modal.Title>{t('addChannel')}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form onSubmit={formik.handleSubmit}>
@@ -37,7 +46,6 @@ const AddChannel = ({ currentChannel, socket, setModal }) => {
             <FormControl
               name="name"
               id="name"
-              placeholder="Имя канала"
               className="mb-2"
               onChange={formik.handleChange}
               value={formik.values.name}
@@ -46,11 +54,13 @@ const AddChannel = ({ currentChannel, socket, setModal }) => {
             <Form.Label htmlFor="name" className="visually-hidden">
               Имя канала
             </Form.Label>
-            <Form.Control.Feedback type="invalid" />
+            {formik.submitCount > 0 && formik.errors.name && (
+            <p className="text-danger">{formik.errors.name}</p>
+            )}
           </FormGroup>
           <div className="d-flex justify-content-end">
-            <Button variant="secondary" className="me-2" onClick={() => setModal(null)}>Отменить</Button>
-            <Button variant="primary" type="submit">Отправить</Button>
+            <Button variant="secondary" className="me-2" onClick={() => setModal(null)}>{t('cancelButton')}</Button>
+            <Button variant="primary" type="submit">{t('submittButton')}</Button>
           </div>
         </Form>
       </Modal.Body>

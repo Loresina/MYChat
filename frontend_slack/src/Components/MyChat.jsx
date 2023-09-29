@@ -4,7 +4,6 @@ import { useDispatch } from 'react-redux';
 import {
   Container, Row, Col, Button,
 } from 'react-bootstrap';
-// import { useFormik } from 'formik';
 import io from 'socket.io-client';
 import { actions as channelsActions } from '../Slices/channelsSlice';
 import { actions as messagesActions } from '../Slices/messagesSlice';
@@ -13,10 +12,11 @@ import Messages from './Messages';
 import SendingMessage from './SendMessage';
 import getModal from '../Modals/index';
 
-const MyChat = () => {
+const MyChat = ({ t }) => {
   const [currentChannel, setCurrentChannel] = useState({});
   const [socket, setSocket] = useState(null);
   const [typeModal, setModal] = useState(null);
+  const [messagesCount, setMessagesCount] = useState(0);
   const dispatch = useDispatch();
   let defoltChannel = {};
 
@@ -47,25 +47,37 @@ const MyChat = () => {
       setCurrentChannel(payload);
     });
 
+    socketIo.on('removeChannel', (payload) => {
+      dispatch(channelsActions.removeChannel(payload));
+      setCurrentChannel(defoltChannel);
+    });
+
+    socketIo.on('renameChannel', (payload) => {
+      dispatch(channelsActions.renameChannel(payload));
+    });
+
     const fetchData = async () => {
       try {
         const response = await axios.get('/api/v1/data', config);
         const existChannels = response.data.channels;
         const newMessages = response.data.messages;
         [defoltChannel] = existChannels;
+
         dispatch(messagesActions.addMessages(newMessages));
         dispatch(channelsActions.addChannels(existChannels));
         setCurrentChannel(defoltChannel);
       } catch (error) {
+        console.log('Я НЕИЗВЕСТНАЯ ОШИБКА');
         console.error(error);
       }
     };
     fetchData();
 
-    // Функция очистки: отключаем сокет и удаляем обработчики
     return () => {
       socketIo.off('newMessage');
       socketIo.off('newChannel');
+      socketIo.off('removeChannel');
+      socketIo.off('renameChannel');
       socketIo.disconnect();
     };
   }, []);
@@ -84,9 +96,12 @@ const MyChat = () => {
             <b>Каналы</b>
             <Button className="p-0 text-primary btn btn-group-vertical" onClick={changeModal('adding')}> +++ </Button>
           </div>
-
-          <Channels setCurrentChannel={setCurrentChannel} currentChannel={currentChannel} />
-
+          <Channels
+            setCurrentChannel={setCurrentChannel}
+            currentChannel={currentChannel}
+            setModal={setModal}
+            t={t}
+          />
         </Col>
 
         <Col className="p-0 h-100">
@@ -99,10 +114,10 @@ const MyChat = () => {
                   {currentChannel.name}
                 </b>
               </p>
-              <span className="text-muted">Информация о том, сколько сообщений - переменная</span>
+              <span className="text-muted">{t('message', { count: messagesCount })}</span>
             </div>
             <div id="messages-box" className="chat-messages overflow-auto px-5 ">
-              <Messages currentChannel={currentChannel} />
+              <Messages currentChannel={currentChannel} setMessagesCount={setMessagesCount} />
             </div>
             <div className="mt-auto px-5 py-3">
               <SendingMessage socket={socket} currentChannel={currentChannel} />
@@ -116,6 +131,7 @@ const MyChat = () => {
         currentChannel={currentChannel}
         socket={socket}
         setModal={setModal}
+        t={t}
       />
       ) }
 
