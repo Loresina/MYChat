@@ -7,7 +7,7 @@
     "build": "npm run build --prefix frontend_slack",
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "start-server -s .",
-    "postinstall": "npm ci && cd frontend_slack && npm ci"
+    "postinstall": "cd frontend_slack && npm ci"
   },
   "repository": {
     "type": "git",
