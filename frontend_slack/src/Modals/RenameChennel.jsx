@@ -16,7 +16,7 @@ const RenameChannel = ({
   const existingNames = existingChannels.map((channel) => channel.name);
 
   useEffect(() => {
-    inputFocus.current.focus();
+    inputFocus.current.select();
   }, []);
 
   const formik = useFormik({
@@ -29,9 +29,14 @@ const RenameChannel = ({
         .notOneOf(existingNames, t('uniqueName')),
     }),
     onSubmit: (values) => {
-      socket.emit('renameChannel', { id: currentChannel.id, name: values.newName });
-      toast(t('renemeChannelSuccess'));
-      setModal(null);
+      socket.emit('renameChannel', { id: currentChannel.id, name: values.newName }, (response) => {
+        if (response.status !== 'ok') {
+          toast.error(t('badConnect'));
+        } else {
+          toast(t('renemeChannelSuccess'));
+          setModal(null);
+        }
+      });
     },
   });
 
@@ -51,6 +56,7 @@ const RenameChannel = ({
               value={formik.values.newName}
               ref={inputFocus}
             />
+            <Form.Label htmlFor="message" className="visually-hidden">Имя канала</Form.Label>
             {formik.submitCount > 0 && formik.errors.newName && (
             <p className="text-danger">{formik.errors.newName}</p>
             )}

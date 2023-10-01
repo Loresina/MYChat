@@ -1,10 +1,13 @@
 import React, { useEffect, useRef } from 'react';
 import { useFormik } from 'formik';
+import { toast } from 'react-toastify';
 import {
   Form, InputGroup, Button, FormControl,
 } from 'react-bootstrap';
+import leoProfanity from 'leo-profanity';
 
-const SendingMessage = ({ socket, currentChannel }) => {
+const SendingMessage = ({ socket, currentChannel, t }) => {
+  leoProfanity.loadDictionary('ru');
   const inputFocus = useRef(null);
   const { user } = JSON.parse(localStorage.getItem('userName'));
 
@@ -17,15 +20,22 @@ const SendingMessage = ({ socket, currentChannel }) => {
       message: '',
     },
     onSubmit: (values) => {
-      socket.emit('newMessage', { body: values.message, channelId: currentChannel.id, username: user });
-      formik.setFieldValue('message', '');
-      inputFocus.current.focus();
+      const filteredMessage = leoProfanity.clean(values.message);
+      socket.emit('newMessage', { body: filteredMessage, channelId: currentChannel.id, username: user }, (response) => {
+        if (response.status !== 'ok') {
+          toast.error(t('badConnect'));
+        } else {
+          formik.setFieldValue('message', '');
+          inputFocus.current.focus();
+        }
+      });
     },
   });
 
   return (
-    <Form noValidate onSubmit={formik.handleSubmit} className="py-1 border rounded-2">
-      <InputGroup hasValidation>
+    <Form onSubmit={formik.handleSubmit} className="py-1 border rounded-2">
+      <InputGroup>
+
         <FormControl
           name="message"
           aria-label="Новое сообщение"
@@ -35,6 +45,7 @@ const SendingMessage = ({ socket, currentChannel }) => {
           value={formik.values.message}
           ref={inputFocus}
         />
+        <Form.Label htmlFor="message" className="visually-hidden">Введите сообщение</Form.Label>
         <Button type="submit" variant="group-vertical" disabled={!formik.values.message} style={{ border: 0 }}>
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="20" height="20" fill="currentColor">
             <path
@@ -44,7 +55,7 @@ const SendingMessage = ({ socket, currentChannel }) => {
             1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H4.5z"
             />
           </svg>
-          <span className="visually-hidden">+</span>
+          <span className="visually-hidden">Отправить</span>
         </Button>
       </InputGroup>
     </Form>

@@ -7,9 +7,14 @@ const RemoveChannel = ({
   currentChannel, socket, setModal, t,
 }) => {
   const removeChannel = () => {
-    socket.emit('removeChannel', { id: currentChannel.id });
-    toast(t('deleteChannelSuccess'));
-    setModal(null);
+    socket.emit('removeChannel', { id: currentChannel.id }, (response) => {
+      if (response.status !== 'ok') {
+        toast.error(t('badConnect'));
+      } else {
+        toast(t('deleteChannelSuccess'));
+        setModal(null);
+      }
+    });
   };
 
   return (

@@ -29,9 +29,14 @@ const AddChannel = ({ socket, setModal, t }) => {
         .notOneOf(existingNames, t('uniqueName')),
     }),
     onSubmit: (values) => {
-      socket.emit('newChannel', { name: values.name });
-      toast(t('addChannelSuccess'));
-      setModal(null);
+      socket.emit('newChannel', { name: values.name }, (response) => {
+        if (response.status !== 'ok') {
+          toast.error(t('badConnect'));
+        } else {
+          toast(t('addChannelSuccess'));
+          setModal(null);
+        }
+      });
     },
   });
 

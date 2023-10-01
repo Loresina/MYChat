@@ -2,7 +2,7 @@ import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useFormik } from 'formik';
 import {
-  Button, Form, Row, Col,
+  Button, Form, Row, Col, Container, Card,
 } from 'react-bootstrap';
 import * as yup from 'yup';
 import axios from 'axios';
@@ -10,6 +10,7 @@ import AuthContext from '../Context/Context';
 import mainImg from '../Img/mainImg.svg';
 
 const Autorization = ({ t }) => {
+  console.log('Я в Autorization +++++++');
   const [showError, setShowError] = useState(false);
   const { logIn } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -37,79 +38,85 @@ const Autorization = ({ t }) => {
         .catch((error) => {
           if (error.name === 'AxiosError') {
             setShowError(true);
-            // console.error('the username or password is incorrect');
           }
           return 'ДРУГАЯ ОШИБКА';
         });
     },
   });
 
+  const getPasswordError = () => {
+    if (formik.submitCount > 0 && !!formik.errors.password) {
+      return formik.errors.password;
+    }
+    if (showError) {
+      return t('loginMistake');
+    }
+    return false;
+  };
+
   return (
-    <div className="d-flex justify-content-center align-items-center h-100">
-      <div className="container-fluid h-100">
-        <div className="row justify-content-center align-content-center h-100">
-          <div className="col-12 col-md-8 col-xxl-6">
-            <div className="card shadow-sm">
-              <div className="card-body row p-5">
-                <Row className="d-flex align-items-center justify-content-center">
-                  <Col md={6}>
-                    <img src={mainImg} alt="Описание изображения" className="img-fluid p-2" />
-                  </Col>
-                  <Col md={6}>
-                    <Form onSubmit={formik.handleSubmit} className="p-3">
-                      <fieldset>
-                        <h1 className="text-center mb-4">{t('welcome')}</h1>
-                        <Form.Group className="form-floating mb-3">
-                          <Form.Control
-                            className="mb-2"
-                            onChange={formik.handleChange}
-                            value={formik.values.username}
-                            placeholder="username"
-                            name="username"
-                            id="username"
-                            autoComplete="username"
-                            isInvalid={showError}
-                          />
-                          <Form.Label htmlFor="username">Ваш ник</Form.Label>
-                          {formik.submitCount > 0 && formik.errors.username && (
-                          <p className="text-danger">{formik.errors.username}</p>
-                          )}
-                        </Form.Group>
-                        <Form.Group className="form-floating mb-3">
-                          <Form.Control
-                            className="mb-2"
-                            type="password"
-                            onChange={formik.handleChange}
-                            value={formik.values.password}
-                            placeholder="password"
-                            name="password"
-                            id="password"
-                            autoComplete="current-password"
-                            isInvalid={showError}
-                          />
-                          <Form.Label htmlFor="username">Пароль</Form.Label>
-                          {formik.submitCount > 0 && formik.errors.password && (
-                          <p className="text-danger">{formik.errors.password}</p>
-                          )}
-                          <Form.Control.Feedback className="invalid-tooltip" type="invalid">{t('loginMistake')}</Form.Control.Feedback>
-                        </Form.Group>
-                        <Button type="submit" className="btn btn-primary w-100">{t('welcome')}</Button>
-                      </fieldset>
-                    </Form>
-                  </Col>
-                </Row>
+    <Container className="fluid h-100 overflow-hidden rounded my-4">
+      <Row className="justify-content-center align-content-center h-100">
+        <Col xs={12} md={8} xxl={6}>
+          <Card className="shadow-sm">
+            <Card.Body className="row p-5">
+              <Row className="d-flex align-items-center justify-content-center">
+                <Col md={6}>
+                  <img src={mainImg} alt="Войти" className="img-fluid p-2" />
+                </Col>
+                <Col md={6}>
+                  <Form onSubmit={formik.handleSubmit} className="p-3">
+                    <fieldset>
+                      <h1 className="text-center mb-4">{t('welcome')}</h1>
+                      <Form.Group className="form-floating mb-3">
+                        <Form.Control
+                          className="mb-2"
+                          onChange={formik.handleChange}
+                          value={formik.values.username}
+                          placeholder="username"
+                          name="username"
+                          id="username"
+                          autoComplete="username"
+                          isInvalid={formik.submitCount > 0 && !!formik.errors.username}
+                        />
+                        <Form.Label htmlFor="username">Ваш ник</Form.Label>
+                        <Form.Control.Feedback className="invalid-tooltip" type="invalid">
+                          {formik.errors.username}
+                        </Form.Control.Feedback>
+                      </Form.Group>
+                      <Form.Group className="form-floating mb-3">
+                        <Form.Control
+                          className="mb-2"
+                          type="password"
+                          onChange={formik.handleChange}
+                          value={formik.values.password}
+                          placeholder="password"
+                          name="password"
+                          id="password"
+                          autoComplete="current-password"
+                          isInvalid={!!getPasswordError()}
+                        />
+                        <Form.Label htmlFor="username">Пароль</Form.Label>
+                        <Form.Control.Feedback className="invalid-tooltip" type="invalid">
+                          {getPasswordError()}
+                        </Form.Control.Feedback>
+                      </Form.Group>
+                      <Button type="submit" className="w-100">{t('welcome')}</Button>
+                    </fieldset>
+                  </Form>
+                </Col>
+              </Row>
+            </Card.Body>
+            <Card.Footer className="p-4 bg-light">
+              <div className="text-center">
+                <span>Нет аккаунта? </span>
+                <a href="/signup">Регистрация</a>
               </div>
-              <div className="card-footer p-4 bg-light">
-                <div className="text-center">
-                  <span>Нет аккаунта? </span>
-                  <a href="/signup">Регистрация</a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+            </Card.Footer>
+          </Card>
+        </Col>
+      </Row>
+    </Container>
 
   );
 };

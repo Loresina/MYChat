@@ -4,13 +4,12 @@ import { selectors } from '../Slices/messagesSlice';
 
 const Messages = ({ currentChannel, setMessagesCount }) => {
   const messages = useSelector(selectors.selectAll);
-  console.log('Я в канале Messages!!!!!!', messages);
-
+  // console.log('Я в Messages!!!!!!', messages);
   const messagesToShow = messages.filter((one) => one.channelId === currentChannel.id);
 
   useEffect(() => {
     setMessagesCount(messagesToShow.length);
-  }, [messagesToShow, setMessagesCount]);
+  }, [messagesToShow]);
 
   return (
     messagesToShow.map((message) => (

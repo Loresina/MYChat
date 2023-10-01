@@ -13,6 +13,7 @@ import SendingMessage from './SendMessage';
 import getModal from '../Modals/index';
 
 const MyChat = ({ t }) => {
+  // console.log('Я в MyChat &&&&&&');
   const [currentChannel, setCurrentChannel] = useState({});
   const [socket, setSocket] = useState(null);
   const [typeModal, setModal] = useState(null);
@@ -42,7 +43,6 @@ const MyChat = ({ t }) => {
     });
 
     socketIo.on('newChannel', (payload) => {
-      console.log('Новый канал', payload);
       dispatch(channelsActions.addChannel(payload));
       setCurrentChannel(payload);
     });
@@ -92,9 +92,15 @@ const MyChat = ({ t }) => {
     <Container className="h-100 my-4 overflow-hidden rounded shadow">
       <Row className="h-100 bg-white flex-md-row">
         <Col className="col-4 col-md-2 border-end px-0 bg-light flex-column h-100 d-flex">
-          <div className="d-flex mt-1 justify-content-between mb-2 ps-4 pe-2 p-4">
+          <div className="d-flex mt-1 justify-content-between align-items-center mb-2 ps-4 pe-2 p-4">
             <b>Каналы</b>
-            <Button className="p-0 text-primary btn btn-group-vertical" onClick={changeModal('adding')}> +++ </Button>
+            <Button variant="group-vertical" onClick={changeModal('adding')}>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="20" height="20" fill="currentColor">
+                <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z" />
+                <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
+              </svg>
+              <span className="visually-hidden">+</span>
+            </Button>
           </div>
           <Channels
             setCurrentChannel={setCurrentChannel}
@@ -120,7 +126,7 @@ const MyChat = ({ t }) => {
               <Messages currentChannel={currentChannel} setMessagesCount={setMessagesCount} />
             </div>
             <div className="mt-auto px-5 py-3">
-              <SendingMessage socket={socket} currentChannel={currentChannel} />
+              <SendingMessage socket={socket} currentChannel={currentChannel} t={t} />
             </div>
           </div>
         </Col>

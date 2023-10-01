@@ -11,6 +11,8 @@ const resources = {
     translation: {
       welcome: 'Войти',
       logOut: 'Выйти',
+      badConnect: 'Ошибка соединения',
+      notFound: 'Страница не найдена',
       registration: 'Регистрация',
       registrationButton: 'Зарегистрироваться',
       addChannel: 'Добавить канал',
@@ -33,9 +35,10 @@ const resources = {
       required: 'Обязательное поле',
       nameMinMax: 'От 3 до 20 символов',
       uniqueName: 'Имя канала должно быть уникальным',
-      passwordMin: 'Пароль должен быть больше {{count}} символов',
+      passwordMin: 'Не менее 6 символов',
       passwordConfirmValid: 'Пароли должны совпадать',
-      loginMistake: 'Неверное имя или пароль.',
+      loginMistake: 'Неверные имя пользователя или пароль',
+      userExist: 'Такой пользователь уже существует',
     },
   },
 };
