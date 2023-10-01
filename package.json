@@ -5,9 +5,9 @@
   "main": "src/index.js",
   "scripts": {
     "prestart": "npm run build",
-    "build": "npm run build --prefix frontend_slack",
+    "build": "npm ci --prefix frontend_slack && npm run build --prefix frontend_slack",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "start-server -s ./frontend_slack/build",
+    "start": "npm ci && start-server -s ./frontend_slack/build",
     "postinstall": "npm ci --prefix frontend_slack"
   },
   "repository": {
