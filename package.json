@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/Loresina/frontend-bootcamp-project-12#readme",
   "dependencies": {
-    "@hexlet/chat-server": "^1.1.8"
+    "@hexlet/chat-server": "^1.1.8",
+    "react-scripts": "5.0.1"
   }
 }
