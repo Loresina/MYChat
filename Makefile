@@ -8,7 +8,7 @@ start-frontend:
 	make -C frontend_slack start
 
 start-backend:
-	npx start-server
+	npm start
 
 start:
 	make start-backend & make start-frontend
