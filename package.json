@@ -10,9 +10,6 @@
     "start": "start-server -s ./frontend_slack/build",
     "postinstall": "npm ci --prefix frontend_slack"
   },
-  "engines": {
-    "node": ">=16 <18"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Loresina/frontend-bootcamp-project-12.git"
