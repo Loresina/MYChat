@@ -6,7 +6,7 @@
   "scripts": {
     "build": "npm run build --prefix frontend_slack",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "start-server -s ./frontend_slack/build",
+    "start": "start-server -s .",
     "postinstall": "cd frontend_slack && npm ci"
   },
   "repository": {
