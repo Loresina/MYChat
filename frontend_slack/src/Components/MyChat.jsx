@@ -11,6 +11,7 @@ import Channels from './Channels';
 import Messages from './Messages';
 import SendingMessage from './SendMessage';
 import getModal from '../Modals/index';
+import routes from '../Hooks/routers';
 
 const MyChat = ({ t }) => {
   const [currentChannel, setCurrentChannel] = useState({});
@@ -57,7 +58,7 @@ const MyChat = ({ t }) => {
 
     const fetchData = async () => {
       try {
-        const response = await axios.get('/api/v1/data', config);
+        const response = await axios.get(routes.usersPath(), config);
         const existChannels = response.data.channels;
         const newMessages = response.data.messages;
         [defoltChannel] = existChannels;

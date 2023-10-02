@@ -12,3 +12,6 @@ start-backend:
 
 start:
 	make start-backend & make start-frontend
+
+build:
+	npm ci --prefix frontend_slack && run build --prefix frontend_slack
