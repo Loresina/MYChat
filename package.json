@@ -4,7 +4,7 @@
   "description": "This is the final project for the front-end developer course.",
   "main": "src/index.js",
   "scripts": {
-    "build": "npm ci --prefix frontend_slack && npm run build --prefix frontend_slack",
+    "build": "npm run build --prefix frontend_slack",
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "npm ci && start-server -s ./frontend_slack/build",
     "postinstall": "cd frontend_slack && npm ci"
