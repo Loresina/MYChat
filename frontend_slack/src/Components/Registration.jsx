@@ -10,6 +10,7 @@ import * as yup from 'yup';
 import axios from 'axios';
 import registrationImg from '../Img/registrationImg.svg';
 import AuthContext from '../Context/Context';
+import routes from '../Hooks/routers';
 
 const Registration = ({ t }) => {
   const [showError, setShowError] = useState(false);
@@ -41,7 +42,7 @@ const Registration = ({ t }) => {
     }),
     onSubmit: (values) => {
       const { username, password } = values;
-      axios.post('/api/v1/signup', { username, password })
+      axios.post(routes.signupPath(), { username, password })
         .then((resp) => {
           logIn();
           localStorage.setItem('userToken', JSON.stringify({ token: resp.data.token }));

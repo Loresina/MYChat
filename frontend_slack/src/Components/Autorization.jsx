@@ -10,6 +10,7 @@ import * as yup from 'yup';
 import axios from 'axios';
 import AuthContext from '../Context/Context';
 import mainImg from '../Img/mainImg.svg';
+import routes from '../Hooks/routers';
 
 const Autorization = ({ t }) => {
   const [showError, setShowError] = useState(false);
@@ -33,7 +34,7 @@ const Autorization = ({ t }) => {
         .required(t('required')),
     }),
     onSubmit: (values) => {
-      axios.post('/api/v1/login', values)
+      axios.post(routes.loginPath(), values)
         .then((resp) => {
           logIn();
           localStorage.setItem('userToken', JSON.stringify({ token: resp.data.token }));
