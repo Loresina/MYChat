@@ -12,9 +12,9 @@ const NotFound = ({ t }) => (
         <Image src={notfoundImg} alt={t('notFound')} className="p-3" fluid style={{ width: '450px', height: '350px' }} />
         <h1 className="h4 text-muted">{t('notFound')}</h1>
         <p className="text-muted">
-          Но вы можете перейти
+          {t('navigation')}
           {'  '}
-          <a href="/">на главную страницу</a>
+          <a href="/">{t('navigationTo')}</a>
         </p>
       </Col>
     </Row>

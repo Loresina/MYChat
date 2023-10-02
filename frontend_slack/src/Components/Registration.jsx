@@ -92,7 +92,7 @@ const Registration = ({ t }) => {
                         isInvalid={formik.submitCount > 0 && !!formik.errors.username}
                         ref={inputFocus}
                       />
-                      <Form.Label htmlFor="username">{t('nik')}</Form.Label>
+                      <Form.Label htmlFor="username">{t('userName')}</Form.Label>
                       <Form.Control.Feedback className="invalid-tooltip" type="invalid">
                         {formik.errors.username}
                       </Form.Control.Feedback>
