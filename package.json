@@ -8,6 +8,9 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "npm ci && start-server -s ./frontend_slack/build"
   },
+  "engines": {
+    "node": ">=16 <18"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Loresina/frontend-bootcamp-project-12.git"
