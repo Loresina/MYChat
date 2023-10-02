@@ -6,7 +6,6 @@ import { useFormik } from 'formik';
 import {
   Button, Form, Row, Col, Container, Card,
 } from 'react-bootstrap';
-import * as yup from 'yup';
 import axios from 'axios';
 import AuthContext from '../Context/Context';
 import mainImg from '../Img/mainImg.svg';
@@ -27,12 +26,6 @@ const Autorization = ({ t }) => {
       username: '',
       password: '',
     },
-    validationSchema: yup.object({
-      username: yup.string()
-        .required(t('required')),
-      password: yup.string()
-        .required(t('required')),
-    }),
     onSubmit: (values) => {
       axios.post(routes.loginPath(), values)
         .then((resp) => {
@@ -81,6 +74,7 @@ const Autorization = ({ t }) => {
                           placeholder="username"
                           name="username"
                           id="username"
+                          required
                           autoComplete="username"
                           isInvalid={formik.submitCount > 0 && !!formik.errors.username}
                           ref={inputFocus}
@@ -99,6 +93,7 @@ const Autorization = ({ t }) => {
                           placeholder="password"
                           name="password"
                           id="password"
+                          required
                           autoComplete="current-password"
                           isInvalid={!!getPasswordError()}
                         />
