@@ -1,4 +1,5 @@
 import React from 'react';
+import { Provider as ProviderRoll, ErrorBoundary } from '@rollbar/react';
 import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
 import { I18nextProvider } from 'react-i18next';
@@ -9,15 +10,24 @@ import store from './Slices/index';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-toastify/dist/ReactToastify.css';
 
+const rollbarConfig = {
+  accessToken: 'cc1d733bc8bf47c88c5ba80d7e3de215',
+  environment: 'testenv',
+};
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <Provider store={store}>
-    <React.StrictMode />
-    <I18nextProvider i18n={i18n}>
-      <App />
-    </I18nextProvider>
-    <React.StrictMode />
-  </Provider>,
+  <ProviderRoll config={rollbarConfig}>
+    <ErrorBoundary>
+      <Provider store={store}>
+        <React.StrictMode />
+        <I18nextProvider i18n={i18n}>
+          <App />
+        </I18nextProvider>
+        <React.StrictMode />
+      </Provider>
+    </ErrorBoundary>
+  </ProviderRoll>,
 );
 
 reportWebVitals();
