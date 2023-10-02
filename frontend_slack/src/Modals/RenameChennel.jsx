@@ -56,7 +56,7 @@ const RenameChannel = ({
               value={formik.values.newName}
               ref={inputFocus}
             />
-            <Form.Label htmlFor="message" className="visually-hidden">Имя канала</Form.Label>
+            <Form.Label htmlFor="message" className="visually-hidden">{t('channelsName')}</Form.Label>
             {formik.submitCount > 0 && formik.errors.newName && (
             <p className="text-danger">{formik.errors.newName}</p>
             )}

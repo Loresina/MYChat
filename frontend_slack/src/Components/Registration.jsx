@@ -1,4 +1,6 @@
-import React, { useState, useContext } from 'react';
+import React, {
+  useState, useContext, useRef, useEffect,
+} from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useFormik } from 'formik';
 import {
@@ -13,8 +15,11 @@ const Registration = ({ t }) => {
   const [showError, setShowError] = useState(false);
   const { logIn } = useContext(AuthContext);
   const navigate = useNavigate();
+  const inputFocus = useRef(null);
 
-  // console.log('Я в Registration +++++++');
+  useEffect(() => {
+    inputFocus.current.focus();
+  }, []);
 
   const formik = useFormik({
     initialValues: {
@@ -46,8 +51,6 @@ const Registration = ({ t }) => {
         .catch((error) => {
           if (error.name === 'AxiosError' && error.response.status === 409) {
             setShowError(true);
-          } else {
-            console.log('Я ОШИБОЧКА', error);
           }
         });
     },
@@ -70,7 +73,7 @@ const Registration = ({ t }) => {
           <Card className="shadow-sm">
             <Card.Body className="d-flex flex-column flex-md-row justify-content-around align-items-center p-5">
               <Col md={6}>
-                <img src={registrationImg} alt="Регистрация" className="img-fluid p-2" />
+                <img src={registrationImg} alt={t('registration')} className="img-fluid p-2" />
               </Col>
               <Col md={6}>
                 <Form onSubmit={formik.handleSubmit} className="w-3">
@@ -86,6 +89,7 @@ const Registration = ({ t }) => {
                         id="username"
                         autoComplete="username"
                         isInvalid={formik.submitCount > 0 && !!formik.errors.username}
+                        ref={inputFocus}
                       />
                       <Form.Label htmlFor="username">{t('nik')}</Form.Label>
                       <Form.Control.Feedback className="invalid-tooltip" type="invalid">

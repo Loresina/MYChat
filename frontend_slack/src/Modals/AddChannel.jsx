@@ -57,7 +57,7 @@ const AddChannel = ({ socket, setModal, t }) => {
               ref={inputFocus}
             />
             <Form.Label htmlFor="name" className="visually-hidden">
-              Имя канала
+              {t('channelsName')}
             </Form.Label>
             {formik.submitCount > 0 && formik.errors.name && (
             <p className="text-danger">{formik.errors.name}</p>

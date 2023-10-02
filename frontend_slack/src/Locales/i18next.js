@@ -2,19 +2,19 @@ import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 
 const resources = {
-  // en: {
-  //   translation: {
-  //     welcome: 'Welcome',
-  //   },
-  // },
   ru: {
     translation: {
       welcome: 'Войти',
       logOut: 'Выйти',
       badConnect: 'Ошибка соединения',
       notFound: 'Страница не найдена',
+      noAccount: 'Нет аккаунта?',
       registration: 'Регистрация',
+      navigation: 'Но вы можете перейти',
       registrationButton: 'Зарегистрироваться',
+      channels: 'Каналы',
+      channelsName: 'Имя канала',
+      addMessage: 'Введите сообщение',
       addChannel: 'Добавить канал',
       addChannelSuccess: 'Канал создан!',
       deleteChannel: 'Удалить канал',

@@ -9,7 +9,6 @@ import { selectors } from '../Slices/channelsSlice';
 const Channels = ({
   currentChannel, setCurrentChannel, setModal, t,
 }) => {
-  // console.log('Я в Channels ^^^^^');
   const channels = useSelector(selectors.selectAll);
 
     <ButtonGroup className="d-flex">

@@ -16,10 +16,6 @@ import Registration from './Registration';
 
 const AuthProvider = ({ children }) => {
   const [loggedIn, setLoggedIn] = useState(!!localStorage.getItem('userToken'));
-
-  // console.log('!!!! loggedIn', loggedIn);
-  // console.log('--->>>  localStorage', localStorage.getItem('userToken'));
-
   const logIn = () => setLoggedIn(true);
   const logOut = () => {
     localStorage.removeItem('userToken');
@@ -38,7 +34,6 @@ const AuthProvider = ({ children }) => {
 };
 
 const LogInRoute = ({ children }) => {
-  // console.log('ЛОГИН РОУТ при авторизации');
   const { loggedIn } = useContext(AuthContext);
   const location = useLocation();
 
@@ -57,7 +52,6 @@ const LogOut = ({ t }) => {
 
 const App = () => {
   const { t } = useTranslation();
-  console.log('Я в APP )))))');
 
   return (
     <AuthProvider>
