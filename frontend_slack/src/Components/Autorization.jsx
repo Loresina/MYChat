@@ -42,7 +42,7 @@ const Autorization = ({ t }) => {
           navigate('/');
         })
         .catch((error) => {
-          if (error.name === 'AxiosError') {
+          if (error.name === 'AxiosError' && error.response.status === 401) {
             setShowError(true);
           }
         });
