@@ -27,12 +27,12 @@ const Autorization = ({ t }) => {
       username: '',
       password: '',
     },
-    validationSchema: yup.object({
-      username: yup.string()
-        .required(t('required')),
-      password: yup.string()
-        .required(t('required')),
-    }),
+    // validationSchema: yup.object({
+    //   username: yup.string()
+    //     .required(t('required')),
+    //   password: yup.string()
+    //     .required(t('required')),
+    // }),
     onSubmit: (values) => {
       axios.post(routes.loginPath(), values)
         .then((resp) => {
@@ -84,6 +84,7 @@ const Autorization = ({ t }) => {
                           autoComplete="username"
                           isInvalid={formik.submitCount > 0 && !!formik.errors.username}
                           ref={inputFocus}
+                          required
                         />
                         <Form.Label htmlFor="username">{t('nik')}</Form.Label>
                         <Form.Control.Feedback className="invalid-tooltip" type="invalid">
@@ -101,6 +102,7 @@ const Autorization = ({ t }) => {
                           id="password"
                           autoComplete="current-password"
                           isInvalid={!!getPasswordError()}
+                          required
                         />
                         <Form.Label htmlFor="username">{t('password')}</Form.Label>
                         <Form.Control.Feedback className="invalid-tooltip" type="invalid">
