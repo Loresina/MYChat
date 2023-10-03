@@ -27,6 +27,7 @@ const SendingMessage = ({ socket, currentChannel, t }) => {
       try {
         socket.addMessage(filteredMessage, currentChannel.id, user, () => formik.setFieldValue('body', ''));
         setIsSending(false);
+        console.log(filteredMessage);
       } catch (err) {
         toast.error(t('badConnect'));
       }

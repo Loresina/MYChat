@@ -53,7 +53,7 @@ const MyChat = ({ t }) => {
       }
     };
     fetchData();
-  }, []);
+  }, [dispatch]);
 
   const changeModal = (type) => () => {
     setModal(type);
