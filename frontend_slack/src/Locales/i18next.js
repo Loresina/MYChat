@@ -16,7 +16,7 @@ const resources = {
       channels: 'Каналы',
       channelsName: 'Имя канала',
       userName: 'Имя пользователя',
-      addMessage: 'Введите сообщение',
+      addMessage: 'Введите сообщение...',
       addChannel: 'Добавить канал',
       addChannelSuccess: 'Канал создан!',
       deleteChannel: 'Удалить канал',
