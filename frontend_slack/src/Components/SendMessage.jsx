@@ -14,7 +14,7 @@ const SendingMessage = ({ socket, currentChannel, t }) => {
 
   useEffect(() => {
     inputFocus.current.focus();
-  }, [currentChannel]);
+  }, [currentChannel, isSending]);
 
   const formik = useFormik({
     initialValues: {
@@ -29,7 +29,6 @@ const SendingMessage = ({ socket, currentChannel, t }) => {
           toast.error(t('badConnect'));
         } else {
           formik.setFieldValue('message', '');
-          inputFocus.current.focus();
         }
       });
     },
