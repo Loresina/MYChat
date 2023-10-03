@@ -23,14 +23,12 @@ const SendingMessage = ({ socket, currentChannel, t }) => {
     onSubmit: (values) => {
       setIsSending(true);
       const filteredMessage = leoProfanity.clean(values.body);
-      socket.emit('newMessage', { body: filteredMessage, channelId: currentChannel.id, username: user }, (response) => {
+      try {
+        socket.addMessage(filteredMessage, currentChannel.id, user, () => formik.setFieldValue('body', ''));
         setIsSending(false);
-        if (response.status !== 'ok') {
-          toast.error(t('badConnect'));
-        } else {
-          formik.setFieldValue('body', '');
-        }
-      });
+      } catch (err) {
+        toast.error(t('badConnect'));
+      }
     },
   });
 

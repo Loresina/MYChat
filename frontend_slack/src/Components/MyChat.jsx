@@ -1,25 +1,26 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { useDispatch } from 'react-redux';
 import {
   Container, Row, Col, Button,
 } from 'react-bootstrap';
-import io from 'socket.io-client';
 import { actions as channelsActions } from '../Slices/channelsSlice';
 import { actions as messagesActions } from '../Slices/messagesSlice';
 import Channels from './Channels';
 import Messages from './Messages';
 import SendingMessage from './SendMessage';
 import getModal from '../Modals/index';
-import routes from '../Hooks/routers';
+import routes from '../Routes/routes';
+import SocketContext from '../Context/SocketContext';
 
 const MyChat = ({ t }) => {
   const [currentChannel, setCurrentChannel] = useState({});
-  const [socket, setSocket] = useState(null);
   const [typeModal, setModal] = useState(null);
   const [messagesCount, setMessagesCount] = useState(0);
   const dispatch = useDispatch();
   let defoltChannel = {};
+
+  const socket = useContext(SocketContext);
 
   const getAuthHeader = () => {
     const userToken = JSON.parse(localStorage.getItem('userToken'));
@@ -35,27 +36,6 @@ const MyChat = ({ t }) => {
   };
 
   useEffect(() => {
-    const socketIo = io('http://localhost:3000');
-    setSocket(socketIo);
-
-    socketIo.on('newMessage', (payload) => {
-      dispatch(messagesActions.addMessage(payload));
-    });
-
-    socketIo.on('newChannel', (payload) => {
-      dispatch(channelsActions.addChannel(payload));
-      setCurrentChannel(payload);
-    });
-
-    socketIo.on('removeChannel', (payload) => {
-      dispatch(channelsActions.removeChannel(payload));
-      setCurrentChannel(defoltChannel);
-    });
-
-    socketIo.on('renameChannel', (payload) => {
-      dispatch(channelsActions.renameChannel(payload));
-    });
-
     const fetchData = async () => {
       try {
         const response = await axios.get(routes.usersPath(), config);
@@ -71,14 +51,6 @@ const MyChat = ({ t }) => {
       }
     };
     fetchData();
-
-    return () => {
-      socketIo.off('newMessage');
-      socketIo.off('newChannel');
-      socketIo.off('removeChannel');
-      socketIo.off('renameChannel');
-      socketIo.disconnect();
-    };
   }, []);
 
   const changeModal = (type) => () => {
@@ -136,6 +108,7 @@ const MyChat = ({ t }) => {
         socket={socket}
         setModal={setModal}
         t={t}
+        setCurrentChannel={setCurrentChannel}
       />
       ) }
     </Container>

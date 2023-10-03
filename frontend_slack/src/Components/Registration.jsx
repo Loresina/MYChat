@@ -9,8 +9,8 @@ import {
 import * as yup from 'yup';
 import axios from 'axios';
 import registrationImg from '../Img/registrationImg.svg';
-import AuthContext from '../Context/Context';
-import routes from '../Hooks/routers';
+import AuthContext from '../Context/AuthContext';
+import routes from '../Routes/routes';
 
 const Registration = ({ t }) => {
   const [showError, setShowError] = useState(false);

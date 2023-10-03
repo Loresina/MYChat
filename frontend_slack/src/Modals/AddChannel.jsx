@@ -8,7 +8,9 @@ import {
 import * as yup from 'yup';
 import { selectors } from '../Slices/channelsSlice';
 
-const AddChannel = ({ socket, setModal, t }) => {
+const AddChannel = ({
+  socket, setModal, t, setCurrentChannel,
+}) => {
   const inputFocus = useRef(null);
   const existingChannels = useSelector(selectors.selectAll);
   const existingNames = existingChannels.map((channel) => channel.name);
@@ -16,6 +18,12 @@ const AddChannel = ({ socket, setModal, t }) => {
   useEffect(() => {
     inputFocus.current.focus();
   }, []);
+
+  const doAfterAddChannel = (currentChennel) => {
+    setModal(null);
+    toast(t('addChannelSuccess'));
+    setCurrentChannel(currentChennel);
+  };
 
   const formik = useFormik({
     initialValues: {
@@ -29,14 +37,11 @@ const AddChannel = ({ socket, setModal, t }) => {
         .notOneOf(existingNames, t('uniqueName')),
     }),
     onSubmit: (values) => {
-      socket.emit('newChannel', { name: values.name }, (response) => {
-        if (response.status !== 'ok') {
-          toast.error(t('badConnect'));
-        } else {
-          toast(t('addChannelSuccess'));
-          setModal(null);
-        }
-      });
+      try {
+        socket.addChannel(values.name, doAfterAddChannel);
+      } catch (err) {
+        toast.error(t('badConnect'));
+      }
     },
   });
 

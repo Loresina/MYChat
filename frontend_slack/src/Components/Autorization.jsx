@@ -8,9 +8,9 @@ import {
 } from 'react-bootstrap';
 import * as yup from 'yup';
 import axios from 'axios';
-import AuthContext from '../Context/Context';
+import AuthContext from '../Context/AuthContext';
 import mainImg from '../Img/mainImg.svg';
-import routes from '../Hooks/routers';
+import routes from '../Routes/routes';
 
 const Autorization = ({ t }) => {
   const [showError, setShowError] = useState(false);

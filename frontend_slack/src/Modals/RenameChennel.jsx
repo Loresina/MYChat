@@ -21,22 +21,20 @@ const RenameChannel = ({
 
   const formik = useFormik({
     initialValues: {
-      newName: currentChannel.name,
+      name: currentChannel.name,
     },
     validationSchema: yup.object({
-      newName: yup.string()
+      name: yup.string()
         .required(t('required'))
         .notOneOf(existingNames, t('uniqueName')),
     }),
     onSubmit: (values) => {
-      socket.emit('renameChannel', { id: currentChannel.id, name: values.newName }, (response) => {
-        if (response.status !== 'ok') {
-          toast.error(t('badConnect'));
-        } else {
-          toast(t('renemeChannelSuccess'));
-          setModal(null);
-        }
-      });
+      try {
+        socket.renameChannel(currentChannel.id, values.name, () => setModal(null));
+        toast(t('renemeChannelSuccess'));
+      } catch {
+        toast.error(t('badConnect'));
+      }
     },
   });
 
@@ -49,16 +47,16 @@ const RenameChannel = ({
         <Form onSubmit={formik.handleSubmit}>
           <FormGroup>
             <FormControl
-              name="newName"
-              id="newName"
+              name="name"
+              id="name"
               className="mb-2"
               onChange={formik.handleChange}
-              value={formik.values.newName}
+              value={formik.values.name}
               ref={inputFocus}
             />
-            <Form.Label htmlFor="message" className="visually-hidden">{t('channelsName')}</Form.Label>
-            {formik.submitCount > 0 && formik.errors.newName && (
-            <p className="text-danger">{formik.errors.newName}</p>
+            <Form.Label htmlFor="name" className="visually-hidden">{t('channelsName')}</Form.Label>
+            {formik.submitCount > 0 && formik.errors.name && (
+            <p className="text-danger">{formik.errors.name}</p>
             )}
           </FormGroup>
           <div className="d-flex justify-content-end">

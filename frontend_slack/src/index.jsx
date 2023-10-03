@@ -9,6 +9,7 @@ import reportWebVitals from './reportWebVitals';
 import store from './Slices/index';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-toastify/dist/ReactToastify.css';
+import { SocketProvider } from './Providers/SocketProvider';
 
 const rollbarConfig = {
   accessToken: 'cc1d733bc8bf47c88c5ba80d7e3de215',
@@ -22,7 +23,9 @@ root.render(
       <Provider store={store}>
         <React.StrictMode />
         <I18nextProvider i18n={i18n}>
-          <App />
+          <SocketProvider>
+            <App />
+          </SocketProvider>
         </I18nextProvider>
         <React.StrictMode />
       </Provider>

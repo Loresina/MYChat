@@ -11,7 +11,7 @@ import { useTranslation } from 'react-i18next';
 import Autorization from './Autorization';
 import NotFound from './NotFound';
 import MyChat from './MyChat';
-import AuthContext from '../Context/Context';
+import AuthContext from '../Context/AuthContext';
 import Registration from './Registration';
 
 const AuthProvider = ({ children }) => {

@@ -17,10 +17,11 @@ const resources = {
       channelsName: 'Имя канала',
       userName: 'Имя пользователя',
       addMessage: 'Введите сообщение...',
+      channelsManage: 'Управление каналом',
       addChannel: 'Добавить канал',
       addChannelSuccess: 'Канал создан!',
       deleteChannel: 'Удалить канал',
-      deleteChannelSuccess: 'Канал удален!',
+      deleteChannelSuccess: 'Канал удалён!',
       renameChannel: 'Переименовать канал',
       renemeChannelSuccess: 'Канал переименован!',
       actionСonfirm: 'Вы уверены?',
@@ -49,9 +50,9 @@ i18n
   .use(initReactI18next)
   .init({
     resources,
-    lng: 'ru', // язык по умолчанию
+    lng: 'ru',
     interpolation: {
-      escapeValue: false, // react уже экранирует значения
+      escapeValue: false,
     },
   });
 
