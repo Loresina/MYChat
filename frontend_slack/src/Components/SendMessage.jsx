@@ -14,7 +14,7 @@ const SendingMessage = ({ socket, currentChannel, t }) => {
 
   useEffect(() => {
     inputFocus.current.focus();
-  }, []);
+  }, [currentChannel]);
 
   const formik = useFormik({
     initialValues: {
@@ -38,7 +38,6 @@ const SendingMessage = ({ socket, currentChannel, t }) => {
   return (
     <Form onSubmit={formik.handleSubmit} className="py-1 border rounded-2">
       <InputGroup>
-
         <FormControl
           name="message"
           placeholder={t('addMessage')}

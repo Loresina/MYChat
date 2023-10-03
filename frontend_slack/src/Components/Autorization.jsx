@@ -121,7 +121,7 @@ const Autorization = ({ t }) => {
                   {t('noAccount')}
                   {' '}
                 </span>
-                <Link to="/">{t('registration')}</Link>
+                <Link to="/signup">{t('registration')}</Link>
               </div>
             </Card.Footer>
           </Card>
