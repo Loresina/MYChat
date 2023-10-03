@@ -18,17 +18,17 @@ const SendingMessage = ({ socket, currentChannel, t }) => {
 
   const formik = useFormik({
     initialValues: {
-      message: '',
+      body: '',
     },
     onSubmit: (values) => {
       setIsSending(true);
-      const filteredMessage = leoProfanity.clean(values.message);
+      const filteredMessage = leoProfanity.clean(values.body);
       socket.emit('newMessage', { body: filteredMessage, channelId: currentChannel.id, username: user }, (response) => {
         setIsSending(false);
         if (response.status !== 'ok') {
           toast.error(t('badConnect'));
         } else {
-          formik.setFieldValue('message', '');
+          formik.setFieldValue('body', '');
         }
       });
     },
@@ -38,16 +38,16 @@ const SendingMessage = ({ socket, currentChannel, t }) => {
     <Form onSubmit={formik.handleSubmit} className="py-1 border rounded-2">
       <InputGroup>
         <FormControl
-          name="message"
+          name="body"
           placeholder={t('addMessage')}
           className="border-0 p-0 ps-2"
           onChange={formik.handleChange}
-          value={formik.values.message}
+          value={formik.values.body}
           ref={inputFocus}
           disabled={isSending}
         />
-        <Form.Label htmlFor="message" className="visually-hidden">{t('addMessage')}</Form.Label>
-        <Button type="submit" variant="group-vertical" disabled={!formik.values.message} style={{ border: 0 }}>
+        <Form.Label htmlFor="body" className="visually-hidden">Новое сообщение</Form.Label>
+        <Button type="submit" variant="group-vertical" disabled={!formik.values.body} style={{ border: 0 }}>
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="20" height="20" fill="currentColor">
             <path
               fillRule="evenodd"
