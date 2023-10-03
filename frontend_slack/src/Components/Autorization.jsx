@@ -6,7 +6,7 @@ import { useFormik } from 'formik';
 import {
   Button, Form, Row, Col, Container, Card,
 } from 'react-bootstrap';
-import * as yup from 'yup';
+// import * as yup from 'yup';
 import axios from 'axios';
 import AuthContext from '../Context/Context';
 import mainImg from '../Img/mainImg.svg';
@@ -82,14 +82,14 @@ const Autorization = ({ t }) => {
                           name="username"
                           id="username"
                           autoComplete="username"
-                          isInvalid={formik.submitCount > 0 && !!formik.errors.username}
+                          isInvalid={showError}
                           ref={inputFocus}
                           required
                         />
                         <Form.Label htmlFor="username">{t('nik')}</Form.Label>
-                        <Form.Control.Feedback className="invalid-tooltip" type="invalid">
+                        {/* <Form.Control.Feedback className="invalid-tooltip" type="invalid">
                           {formik.errors.username}
-                        </Form.Control.Feedback>
+                        </Form.Control.Feedback> */}
                       </Form.Group>
                       <Form.Group className="form-floating mb-3">
                         <Form.Control
@@ -101,7 +101,7 @@ const Autorization = ({ t }) => {
                           name="password"
                           id="password"
                           autoComplete="current-password"
-                          isInvalid={!!getPasswordError()}
+                          isInvalid={showError}
                           required
                         />
                         <Form.Label htmlFor="username">{t('password')}</Form.Label>
