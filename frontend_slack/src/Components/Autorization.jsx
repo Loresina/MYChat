@@ -104,7 +104,7 @@ const Autorization = ({ t }) => {
                           isInvalid={showError}
                           required
                         />
-                        <Form.Label htmlFor="username">{t('password')}</Form.Label>
+                        <Form.Label htmlFor="password">{t('password')}</Form.Label>
                         <Form.Control.Feedback className="invalid-tooltip" type="invalid">
                           {t('loginMistake')}
                         </Form.Control.Feedback>
