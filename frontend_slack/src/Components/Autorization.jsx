@@ -75,7 +75,7 @@ const Autorization = ({ t }) => {
                       <h1 className="text-center mb-4">{t('welcome')}</h1>
                       <Form.Group className="form-floating mb-3">
                         <Form.Control
-                          className="mb-2"
+                          className="mb-4"
                           onChange={formik.handleChange}
                           value={formik.values.username}
                           placeholder="username"
@@ -92,7 +92,7 @@ const Autorization = ({ t }) => {
                       </Form.Group>
                       <Form.Group className="form-floating mb-3">
                         <Form.Control
-                          className="mb-2"
+                          className="mb-4"
                           type="password"
                           onChange={formik.handleChange}
                           value={formik.values.password}
