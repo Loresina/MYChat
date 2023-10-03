@@ -93,7 +93,7 @@ const Autorization = ({ t }) => {
                       </Form.Group>
                       <Form.Group className="form-floating mb-3">
                         <Form.Control
-                          className="mb-4"
+                          className="mb-5"
                           type="password"
                           onChange={formik.handleChange}
                           value={formik.values.password}
@@ -109,7 +109,7 @@ const Autorization = ({ t }) => {
                           {getPasswordError()}
                         </Form.Control.Feedback>
                       </Form.Group>
-                      <Button type="submit" className="w-100">{t('welcome')}</Button>
+                      <Button type="submit" className="w-100 mt-2">{t('welcome')}</Button>
                     </fieldset>
                   </Form>
                 </Col>
