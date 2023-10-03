@@ -1,12 +1,12 @@
 import React, {
   useState, useContext, useRef, useEffect,
 } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { useFormik } from 'formik';
 import {
   Button, Form, Row, Col, Container, Card,
 } from 'react-bootstrap';
-// import * as yup from 'yup';
+import * as yup from 'yup';
 import axios from 'axios';
 import AuthContext from '../Context/Context';
 import mainImg from '../Img/mainImg.svg';
@@ -27,12 +27,12 @@ const Autorization = ({ t }) => {
       username: '',
       password: '',
     },
-    // validationSchema: yup.object({
-    //   username: yup.string()
-    //     .required(t('required')),
-    //   password: yup.string()
-    //     .required(t('required')),
-    // }),
+    validationSchema: yup.object({
+      username: yup.string()
+        .required(t('required')),
+      password: yup.string()
+        .required(t('required')),
+    }),
     onSubmit: (values) => {
       axios.post(routes.loginPath(), values)
         .then((resp) => {
@@ -49,15 +49,15 @@ const Autorization = ({ t }) => {
     },
   });
 
-  // const getPasswordError = () => {
-  //   if (formik.submitCount > 0 && !!formik.errors.password) {
-  //     return formik.errors.password;
-  //   }
-  //   if (showError) {
-  //     return t('loginMistake');
-  //   }
-  //   return false;
-  // };
+  const getPasswordError = () => {
+    if (formik.submitCount > 0 && !!formik.errors.password) {
+      return formik.errors.password;
+    }
+    if (showError) {
+      return t('loginMistake');
+    }
+    return false;
+  };
 
   return (
     <Container className="fluid h-100 overflow-hidden rounded my-4">
@@ -75,25 +75,25 @@ const Autorization = ({ t }) => {
                       <h1 className="text-center mb-4">{t('welcome')}</h1>
                       <Form.Group className="form-floating mb-3">
                         <Form.Control
-                          className="mb-4"
+                          className="mb-2"
                           onChange={formik.handleChange}
                           value={formik.values.username}
                           placeholder="username"
                           name="username"
                           id="username"
                           autoComplete="username"
-                          isInvalid={showError}
+                          isInvalid={formik.submitCount > 0 && !!formik.errors.username}
                           ref={inputFocus}
                           required
                         />
                         <Form.Label htmlFor="username">{t('nik')}</Form.Label>
-                        {/* <Form.Control.Feedback className="invalid-tooltip" type="invalid">
+                        <Form.Control.Feedback className="invalid-tooltip" type="invalid">
                           {formik.errors.username}
-                        </Form.Control.Feedback> */}
+                        </Form.Control.Feedback>
                       </Form.Group>
                       <Form.Group className="form-floating mb-3">
                         <Form.Control
-                          className="mb-5"
+                          className="mb-2"
                           type="password"
                           onChange={formik.handleChange}
                           value={formik.values.password}
@@ -101,7 +101,7 @@ const Autorization = ({ t }) => {
                           name="password"
                           id="password"
                           autoComplete="current-password"
-                          isInvalid={showError}
+                          isInvalid={!!getPasswordError()}
                           required
                         />
                         <Form.Label htmlFor="password">{t('password')}</Form.Label>
@@ -109,7 +109,7 @@ const Autorization = ({ t }) => {
                           {t('loginMistake')}
                         </Form.Control.Feedback>
                       </Form.Group>
-                      <Button type="submit" className="w-100 mt-2">{t('welcome')}</Button>
+                      <Button type="submit" className="w-100 mt-1">{t('welcome')}</Button>
                     </fieldset>
                   </Form>
                 </Col>
@@ -121,7 +121,7 @@ const Autorization = ({ t }) => {
                   {t('noAccount')}
                   {' '}
                 </span>
-                <a href="/signup">{t('registration')}</a>
+                <Link to="/">{t('registration')}</Link>
               </div>
             </Card.Footer>
           </Card>
