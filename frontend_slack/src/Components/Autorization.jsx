@@ -49,15 +49,15 @@ const Autorization = ({ t }) => {
     },
   });
 
-  const getPasswordError = () => {
-    if (formik.submitCount > 0 && !!formik.errors.password) {
-      return formik.errors.password;
-    }
-    if (showError) {
-      return t('loginMistake');
-    }
-    return false;
-  };
+  // const getPasswordError = () => {
+  //   if (formik.submitCount > 0 && !!formik.errors.password) {
+  //     return formik.errors.password;
+  //   }
+  //   if (showError) {
+  //     return t('loginMistake');
+  //   }
+  //   return false;
+  // };
 
   return (
     <Container className="fluid h-100 overflow-hidden rounded my-4">
@@ -106,7 +106,7 @@ const Autorization = ({ t }) => {
                         />
                         <Form.Label htmlFor="username">{t('password')}</Form.Label>
                         <Form.Control.Feedback className="invalid-tooltip" type="invalid">
-                          {getPasswordError()}
+                          {t('loginMistake')}
                         </Form.Control.Feedback>
                       </Form.Group>
                       <Button type="submit" className="w-100 mt-2">{t('welcome')}</Button>
