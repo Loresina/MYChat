@@ -8,6 +8,7 @@ import leoProfanity from 'leo-profanity';
 
 const SendingMessage = ({ socket, currentChannel, t }) => {
   leoProfanity.loadDictionary('ru');
+  leoProfanity.loadDictionary('en');
   const [isSending, setIsSending] = useState(false);
   const inputFocus = useRef(null);
   const { user } = JSON.parse(localStorage.getItem('userName'));

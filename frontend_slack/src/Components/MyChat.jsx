@@ -43,6 +43,8 @@ const MyChat = ({ t }) => {
         const newMessages = response.data.messages;
         [defoltChannel] = existChannels;
 
+        console.log('Канал по-умолчанию', defoltChannel);
+
         dispatch(messagesActions.addMessages(newMessages));
         dispatch(channelsActions.addChannels(existChannels));
         setCurrentChannel(defoltChannel);
@@ -109,6 +111,7 @@ const MyChat = ({ t }) => {
         setModal={setModal}
         t={t}
         setCurrentChannel={setCurrentChannel}
+        defoltChannel={defoltChannel}
       />
       ) }
     </Container>

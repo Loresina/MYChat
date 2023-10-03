@@ -4,11 +4,13 @@ import {
 } from 'react-bootstrap';
 
 const RemoveChannel = ({
-  currentChannel, socket, setModal, t,
+  currentChannel, socket, setModal, t, setCurrentChannel,
 }) => {
   const removeChannel = () => {
     try {
       socket.removeChannel(currentChannel.id, () => setModal(null));
+      console.log('UUUU', setCurrentChannel);
+      setCurrentChannel({ id: 1, name: 'general', removable: false });
       toast(t('deleteChannelSuccess'));
     } catch {
       toast.error(t('badConnect'));
