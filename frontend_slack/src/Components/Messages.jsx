@@ -14,8 +14,7 @@ const Messages = ({ currentChannel, setMessagesCount }) => {
     messagesToShow.map((message) => (
       <div key={message.id} className="text-break mb-2">
         <b>{message.username}</b>
-        :
-        {' '}
+        {': '}
         {message.body}
       </div>
     ))
