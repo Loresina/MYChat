@@ -31,7 +31,7 @@ const Autorization = ({ t }) => {
       username: yup.string()
         .required(t('required')),
       password: yup.string()
-        .required(t('required')),
+        .required(t('loginMistake')),
     }),
     onSubmit: (values) => {
       axios.post(routes.loginPath(), values)
