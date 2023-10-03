@@ -40,13 +40,13 @@ const SendingMessage = ({ socket, currentChannel, t }) => {
         <FormControl
           name="body"
           placeholder={t('addMessage')}
+          aria-label="Новое сообщение"
           className="border-0 p-0 ps-2"
           onChange={formik.handleChange}
           value={formik.values.body}
           ref={inputFocus}
           disabled={isSending}
         />
-        <Form.Label htmlFor="body" className="visually-hidden">Новое сообщение</Form.Label>
         <Button type="submit" variant="group-vertical" disabled={!formik.values.body} style={{ border: 0 }}>
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="20" height="20" fill="currentColor">
             <path
