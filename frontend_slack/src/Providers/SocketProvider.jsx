@@ -5,7 +5,7 @@ import SocketContext from '../Context/SocketContext';
 import { actions as channelsActions } from '../Slices/channelsSlice';
 import { actions as messagesActions } from '../Slices/messagesSlice';
 
-const socketIo = io('http://localhost:3000');
+const socketIo = io();
 
 export const SocketProvider = ({ children }) => {
   const dispatch = useDispatch();

@@ -19,14 +19,13 @@ const SendingMessage = ({ currentChannel, t }) => {
     inputFocus.current.focus();
   }, [currentChannel, isSending]);
 
-  const filterMessage = (message) => {
-    leoProfanity.loadDictionary('ru');
-    const ruFiltered = leoProfanity.clean(message);
+  leoProfanity.add(leoProfanity.getDictionary('en'));
+  leoProfanity.add(leoProfanity.getDictionary('fr'));
+  leoProfanity.add(leoProfanity.getDictionary('ru'));
 
-    leoProfanity.loadDictionary('en');
-    const enFiltered = leoProfanity.clean(ruFiltered);
-
-    return enFiltered;
+  const coobackMessage = (formik) => {
+    formik.resetForm();
+    setIsSending(false);
   };
 
   const formik = useFormik({
@@ -35,10 +34,9 @@ const SendingMessage = ({ currentChannel, t }) => {
     },
     onSubmit: (values) => {
       setIsSending(true);
-      const filteredMessage = filterMessage(values.body);
+      const filteredMessage = leoProfanity.clean(values.body);
       try {
-        socket.addMessage(filteredMessage, currentChannel.id, user, () => formik.setFieldValue('body', ''));
-        setIsSending(false);
+        socket.addMessage(filteredMessage, currentChannel.id, user, () => coobackMessage(formik));
       } catch (err) {
         toast.error(t('badConnect'));
       }
