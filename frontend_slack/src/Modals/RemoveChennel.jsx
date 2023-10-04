@@ -1,15 +1,19 @@
+import React from 'react';
 import { toast } from 'react-toastify';
 import {
   Modal, Button,
 } from 'react-bootstrap';
+import useSocket from '../Hooks/SocketHook';
 
 const RemoveChannel = ({
-  currentChannel, socket, setModal, t, setCurrentChannel,
+  currentChannel, setModal, t, setCurrentChannel, defoltChannel,
 }) => {
+  const socket = useSocket();
+
   const removeChannel = () => {
     try {
       socket.removeChannel(currentChannel.id, () => setModal(null));
-      setCurrentChannel({ id: 1, name: 'general', removable: false });
+      setCurrentChannel(defoltChannel);
       toast(t('deleteChannelSuccess'));
     } catch {
       toast.error(t('badConnect'));

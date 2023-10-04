@@ -3,17 +3,17 @@ import {
   useLocation, Link,
 } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
-import React, { useContext } from 'react';
+import React from 'react';
 import { Button, Navbar, Container } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import Autorization from './Autorization';
 import NotFound from './NotFound';
 import MyChat from './MyChat';
-import AuthContext from '../Context/AuthContext';
+import useAuth from '../Hooks/AuthHook';
 import Registration from './Registration';
 
 const LogInRoute = ({ children }) => {
-  const { loggedIn } = useContext(AuthContext);
+  const { loggedIn } = useAuth();
   const location = useLocation();
 
   return (
@@ -22,7 +22,7 @@ const LogInRoute = ({ children }) => {
 };
 
 const LogOut = ({ t }) => {
-  const { loggedIn, logOut } = useContext(AuthContext);
+  const { loggedIn, logOut } = useAuth();
 
   return (
     loggedIn ? <Button tabIndex="0" onClick={logOut}>{t('logOut')}</Button> : null

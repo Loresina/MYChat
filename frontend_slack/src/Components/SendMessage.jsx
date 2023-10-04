@@ -1,21 +1,33 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, {
+  useEffect, useRef, useState,
+} from 'react';
 import { useFormik } from 'formik';
 import { toast } from 'react-toastify';
 import {
   Form, InputGroup, Button, FormControl,
 } from 'react-bootstrap';
 import leoProfanity from 'leo-profanity';
+import useSocket from '../Hooks/SocketHook';
 
-const SendingMessage = ({ socket, currentChannel, t }) => {
-  leoProfanity.loadDictionary('ru');
-  leoProfanity.loadDictionary('en');
+const SendingMessage = ({ currentChannel, t }) => {
   const [isSending, setIsSending] = useState(false);
   const inputFocus = useRef(null);
   const { user } = JSON.parse(localStorage.getItem('userName'));
+  const socket = useSocket();
 
   useEffect(() => {
     inputFocus.current.focus();
   }, [currentChannel, isSending]);
+
+  const filterMessage = (message) => {
+    leoProfanity.loadDictionary('ru');
+    const ruFiltered = leoProfanity.clean(message);
+
+    leoProfanity.loadDictionary('en');
+    const enFiltered = leoProfanity.clean(ruFiltered);
+
+    return enFiltered;
+  };
 
   const formik = useFormik({
     initialValues: {
@@ -23,11 +35,10 @@ const SendingMessage = ({ socket, currentChannel, t }) => {
     },
     onSubmit: (values) => {
       setIsSending(true);
-      const filteredMessage = leoProfanity.clean(values.body);
+      const filteredMessage = filterMessage(values.body);
       try {
         socket.addMessage(filteredMessage, currentChannel.id, user, () => formik.setFieldValue('body', ''));
         setIsSending(false);
-        console.log(filteredMessage);
       } catch (err) {
         toast.error(t('badConnect'));
       }

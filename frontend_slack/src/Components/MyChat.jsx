@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import {
   Container, Row, Col, Button,
@@ -11,16 +11,13 @@ import Messages from './Messages';
 import SendingMessage from './SendMessage';
 import getModal from '../Modals/index';
 import routes from '../Routes/routes';
-import SocketContext from '../Context/SocketContext';
 
 const MyChat = ({ t }) => {
-  const [currentChannel, setCurrentChannel] = useState({});
   const [typeModal, setModal] = useState(null);
   const [messagesCount, setMessagesCount] = useState(0);
   const dispatch = useDispatch();
-  let defoltChannel = {};
-
-  const socket = useContext(SocketContext);
+  const [defoltChannel, setDefoltChannel] = useState({});
+  const [currentChannel, setCurrentChannel] = useState({});
 
   const getAuthHeader = () => {
     const userToken = JSON.parse(localStorage.getItem('userToken'));
@@ -36,11 +33,12 @@ const MyChat = ({ t }) => {
         const { data } = await axios.get(routes.usersPath(), { headers: getAuthHeader() });
         const existChannels = data.channels;
         const newMessages = data.messages;
-        [defoltChannel] = existChannels;
+        const [firstChannel] = existChannels;
 
         dispatch(messagesActions.addMessages(newMessages));
         dispatch(channelsActions.addChannels(existChannels));
-        setCurrentChannel(defoltChannel);
+        setDefoltChannel(firstChannel);
+        setCurrentChannel(firstChannel);
       } catch (error) {
         console.error(error);
       }
@@ -92,7 +90,7 @@ const MyChat = ({ t }) => {
               <Messages currentChannel={currentChannel} setMessagesCount={setMessagesCount} />
             </div>
             <div className="mt-auto px-5 py-3">
-              <SendingMessage socket={socket} currentChannel={currentChannel} t={t} />
+              <SendingMessage currentChannel={currentChannel} t={t} />
             </div>
           </div>
         </Col>
@@ -100,13 +98,12 @@ const MyChat = ({ t }) => {
       {typeModal && (
       <ModalComponent
         currentChannel={currentChannel}
-        socket={socket}
         setModal={setModal}
         t={t}
         setCurrentChannel={setCurrentChannel}
         defoltChannel={defoltChannel}
       />
-      ) }
+      )}
     </Container>
   );
 };

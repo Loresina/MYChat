@@ -7,13 +7,15 @@ import {
 } from 'react-bootstrap';
 import * as yup from 'yup';
 import { selectors } from '../Slices/channelsSlice';
+import useSocket from '../Hooks/SocketHook';
 
 const RenameChannel = ({
-  currentChannel, socket, setModal, t,
+  currentChannel, setModal, t,
 }) => {
   const inputFocus = useRef(null);
   const existingChannels = useSelector(selectors.selectAll);
   const existingNames = existingChannels.map((channel) => channel.name);
+  const socket = useSocket();
 
   useEffect(() => {
     inputFocus.current.select();
