@@ -6,7 +6,7 @@
   "scripts": {
     "build": "npm ci --prefix frontend_slack && npm run build --prefix frontend_slack",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "start-server -s ./frontend_slack/build"
+    "start": "npm ci && start-server -s ./frontend_slack/build"
   },
   "engines": {
     "node": ">=16 <18"

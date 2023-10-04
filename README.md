@@ -28,5 +28,5 @@ Install **MY Hexlet Chat** by commands in terminal.
 <a href="https://codeclimate.com/github/Loresina/frontend-bootcamp-project-12/maintainability"><img src="https://api.codeclimate.com/v1/badges/646791e2f2e9841fdf30/maintainability" /></a>
 
 ### Github Actions
-<a href="https://github.com/Loresina/frontend-bootcamp-project-12/actions"><img src="https://github.com/Loresina/frontend-bootcamp-project-12/actions/workflows/main.yml/badge.svg" /></a>
+<a href="https://github.com/Loresina/frontend-bootcamp-project-12/actions"><img src="https://github.com/Loresina/frontend-bootcamp-project-12/actions/workflows/hexlet-check.yml/badge.svg" /></a>
 
