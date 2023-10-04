@@ -41,7 +41,6 @@ const AddChannel = ({
     onSubmit: (values) => {
       try {
         socket.addChannel(values.name, doAfterAddChannel);
-        console.log(values.name);
       } catch (err) {
         toast.error(t('badConnect'));
       }
