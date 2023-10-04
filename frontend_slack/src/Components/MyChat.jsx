@@ -24,36 +24,29 @@ const MyChat = ({ t }) => {
 
   const getAuthHeader = () => {
     const userToken = JSON.parse(localStorage.getItem('userToken'));
-
     if (userToken && userToken.token) {
       return { Authorization: `Bearer ${userToken.token}` };
     }
     return {};
   };
 
-  const config = {
-    headers: getAuthHeader(),
-  };
-
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(routes.usersPath(), config);
-        const existChannels = response.data.channels;
-        const newMessages = response.data.messages;
+        const { data } = await axios.get(routes.usersPath(), { headers: getAuthHeader() });
+        const existChannels = data.channels;
+        const newMessages = data.messages;
         [defoltChannel] = existChannels;
-
-        console.log('Канал по-умолчанию', defoltChannel);
 
         dispatch(messagesActions.addMessages(newMessages));
         dispatch(channelsActions.addChannels(existChannels));
         setCurrentChannel(defoltChannel);
       } catch (error) {
-        console.error('!!!', error);
+        console.error(error);
       }
     };
     fetchData();
-  }, [dispatch]);
+  }, []);
 
   const changeModal = (type) => () => {
     setModal(type);

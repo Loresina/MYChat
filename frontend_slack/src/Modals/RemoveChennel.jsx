@@ -9,7 +9,6 @@ const RemoveChannel = ({
   const removeChannel = () => {
     try {
       socket.removeChannel(currentChannel.id, () => setModal(null));
-      console.log('UUUU', setCurrentChannel);
       setCurrentChannel({ id: 1, name: 'general', removable: false });
       toast(t('deleteChannelSuccess'));
     } catch {

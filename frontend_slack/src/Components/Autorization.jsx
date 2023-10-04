@@ -84,7 +84,6 @@ const Autorization = ({ t }) => {
                           autoComplete="username"
                           isInvalid={formik.submitCount > 0 && !!formik.errors.username}
                           ref={inputFocus}
-                          required
                         />
                         <Form.Label htmlFor="username">{t('nik')}</Form.Label>
                         <Form.Control.Feedback className="invalid-tooltip" type="invalid">
@@ -102,11 +101,10 @@ const Autorization = ({ t }) => {
                           id="password"
                           autoComplete="current-password"
                           isInvalid={!!getPasswordError()}
-                          required
                         />
                         <Form.Label htmlFor="password">{t('password')}</Form.Label>
                         <Form.Control.Feedback className="invalid-tooltip" type="invalid">
-                          {t('loginMistake')}
+                          {getPasswordError()}
                         </Form.Control.Feedback>
                       </Form.Group>
                       <Button type="submit" className="w-100 mt-1">{t('welcome')}</Button>

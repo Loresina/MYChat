@@ -5,7 +5,6 @@ import { selectors } from '../Slices/messagesSlice';
 const Messages = ({ currentChannel, setMessagesCount }) => {
   const messages = useSelector(selectors.selectAll);
   const messagesToShow = messages.filter((one) => one.channelId === currentChannel.id);
-  console.log(messagesToShow);
 
   useEffect(() => {
     setMessagesCount(messagesToShow.length);
