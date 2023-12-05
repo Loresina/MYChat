@@ -6,6 +6,9 @@ All your friends can create their account here.
 * You can also create unique channels for correspondence.
 * Supports filtering of obscene words.
 
+[Uploading ice_video_20231205-100756.webm…]()
+
+
 ### How you can use it
 
 <code>You can follow the link and try to use [MY Hexlet Chat](https://my-own-slack-chat-loresina.onrender.com)
