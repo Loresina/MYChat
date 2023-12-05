@@ -7,7 +7,7 @@ All your friends can create their account here.
 * Supports filtering of obscene words.
 
 ### Video demonstration
-https://github.com/Loresina/MYChat/assets/118152597/01e577d7-926d-46b0-ae1c-2aaef9b68c33
+https://github.com/Loresina/MYChat/assets/118152597/dc711f0d-1ee7-47cb-81f5-e115784d0d60
 
 ### How you can use it
 
