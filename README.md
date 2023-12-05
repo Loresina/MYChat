@@ -6,7 +6,11 @@ All your friends can create their account here.
 * You can also create unique channels for correspondence.
 * Supports filtering of obscene words.
 
-[Uploading ice_video_20231205-100756.webm…]()
+
+
+https://github.com/Loresina/MYChat/assets/118152597/fb06824c-a58e-4bfe-bf38-32d1b22a14e4
+
+
 
 
 ### How you can use it
