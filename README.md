@@ -6,12 +6,8 @@ All your friends can create their account here.
 * You can also create unique channels for correspondence.
 * Supports filtering of obscene words.
 
-
-
-https://github.com/Loresina/MYChat/assets/118152597/fb06824c-a58e-4bfe-bf38-32d1b22a14e4
-
-
-
+### Video demonstration
+https://github.com/Loresina/MYChat/assets/118152597/248ef455-988d-4d8f-91c6-3238a5378310
 
 ### How you can use it
 
